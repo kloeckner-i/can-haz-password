@@ -88,10 +88,6 @@ func (g Generator) Generate() (string, error) {
 	password := make([]rune, 0)
 
 	for invalidPasswordRejections := 0; invalidPasswordRejections < maxInvalidPasswordRejections; {
-		if g.complete(config, password) {
-			return string(password), nil
-		}
-
 		// Append the next character to the password.
 		password = append(password, g.characterSource.Next())
 
@@ -108,6 +104,10 @@ func (g Generator) Generate() (string, error) {
 		// This sets an upper bound on the long tail of the distribution.
 		if len(password) > int(float64(config.Length)*1.5) {
 			password = make([]rune, 0)
+		}
+
+		if g.complete(config, password) {
+			return string(password), nil
 		}
 	}
 
