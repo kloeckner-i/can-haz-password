@@ -62,14 +62,14 @@ func (r *demoPasswordRule) Config() *password.Configuration {
 	classes := []password.CharacterClassConfiguration{
 		// Typically the minimums would be constants, in this case due to varying minimum lengths
 		// we set them as relative percentages of the total length.
-		{Characters: unambiguousLetters, Minimum: max(int(math.Round(float64(passwordLength)*0.5)), 1)},
-		{Characters: unambiguousDigits, Minimum: max(int(math.Round(float64(passwordLength)*0.33)), 1)},
+		{Characters: unambiguousLetters, Minimum: int(math.Ceil(float64(passwordLength) * 0.5))},
+		{Characters: unambiguousDigits, Minimum: int(math.Ceil(float64(passwordLength) * 0.33))},
 	}
 
 	if *r.specialCharacters {
 		classes = append(classes, password.CharacterClassConfiguration{
 			Characters: specialCharacters,
-			Minimum:    max(int(math.Round(float64(passwordLength)*0.17)), 1)})
+			Minimum:    int(math.Ceil(float64(passwordLength) * 0.17))})
 	}
 
 	return &password.Configuration{
@@ -80,12 +80,4 @@ func (r *demoPasswordRule) Config() *password.Configuration {
 
 func (r *demoPasswordRule) Valid(_ []rune) bool {
 	return true
-}
-
-func max(x, y int) int {
-	if x < y {
-		return y
-	}
-
-	return x
 }

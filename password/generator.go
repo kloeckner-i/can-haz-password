@@ -162,7 +162,7 @@ func addCharactersToWeightedRandomSet(
 	if probability > 0.0 {
 		for _, v := range characterClass {
 			entries = append(entries, rand.WeightedRandomEntry{
-				Value: v,
+				Character: v,
 				// The probability of each individual character being selected is equal to the probability of this
 				// class of characters being selected, divided by the total number of characters in this class.
 				Weight: probability / float64(len(characterClass)),

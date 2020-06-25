@@ -29,15 +29,15 @@ func TestWeightedRandomSet(t *testing.T) {
 	// A collection of random entries with a triangle like distribution of probability.
 	// Weight being akin to the probability of being selected.
 	entries := []rand.WeightedRandomEntry{
-		{Value: 0, Weight: 1.0},
-		{Value: 1, Weight: 2.0},
-		{Value: 2, Weight: 3.0},
-		{Value: 3, Weight: 4.0},
-		{Value: 4, Weight: 5.0},
-		{Value: 5, Weight: 4.0},
-		{Value: 6, Weight: 3.0},
-		{Value: 7, Weight: 2.0},
-		{Value: 8, Weight: 1.0},
+		{Character: 0, Weight: 1.0},
+		{Character: 1, Weight: 2.0},
+		{Character: 2, Weight: 3.0},
+		{Character: 3, Weight: 4.0},
+		{Character: 4, Weight: 5.0},
+		{Character: 5, Weight: 4.0},
+		{Character: 6, Weight: 3.0},
+		{Character: 7, Weight: 2.0},
+		{Character: 8, Weight: 1.0},
 	}
 
 	// Construct a new weighted random set.

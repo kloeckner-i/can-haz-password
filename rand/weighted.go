@@ -40,42 +40,47 @@ type WeightedRandomSet struct {
 	// An interval tree used internally in the weighting algorithm.
 	tree *intree.INTree
 	// The character associated with each element in the interval tree.
-	values []rune
+	characters []rune
 	// The total weight of the tree (eg. the sum of all the entry weights).
 	totalWeight float64
 }
 
 // WeightedRandomEntry is an entry in the weighted random set.
 type WeightedRandomEntry struct {
-	Value  rune
-	Weight float64
+	Character rune
+	Weight    float64
 }
 
 // NewWeightedRandomSet is used to construct a new weighted random set from a collection of entries.
 func NewWeightedRandomSet(entries []WeightedRandomEntry) WeightedRandomSet {
 	totalWeight := 0.0
 	ranges := make([]intree.Bounds, len(entries))
-	values := make([]rune, len(entries))
+	characters := make([]rune, len(entries))
 
 	for i, w := range entries {
 		ranges[i] = &interval{min: totalWeight, max: totalWeight + w.Weight}
-		values[i] = w.Value
+		characters[i] = w.Character
 		totalWeight += w.Weight
 	}
 
 	return WeightedRandomSet{
 		randSource:  NewCryptoRand(),
 		tree:        intree.NewINTree(ranges),
-		values:      values,
+		characters:  characters,
 		totalWeight: totalWeight,
 	}
 }
 
 // Next returns the next value in the weighted random sequence.
 func (rs WeightedRandomSet) Next() rune {
-	// A single entry in the interval tree is guaranteed to exist for the value.
-	// So we can easily query the tree and return the first value without checking.
-	return rs.values[rs.tree.Including(rs.randSource.Float64() * rs.totalWeight)[0]]
+	// Read a random value from the source and scale it into the range, 0 <= x < total_weight.
+	value := rs.randSource.Float64() * rs.totalWeight
+
+	// Find the index of the interval that contains this value. This always returns a single result.
+	index := rs.tree.Including(value)[0]
+
+	// Map the interval index to its corresponding character value.
+	return rs.characters[index]
 }
 
 // A simple floating point interval implementation for the interval tree.
