@@ -10,14 +10,14 @@ secure.
 * Password complexity enforcement.
 * Rules support for enforcing custom requirements.
 
-## Demonstration
-
-![can-haz-password demonstration](demo.gif)
-
 ## Quickstart
 
 An example implementation of a password generator utilizing this library is 
 available [cmd/main.go](cmd/main.go).
+
+## Demonstration
+
+![can-haz-password demonstration](demo.gif)
 
 ## Documentation
 
